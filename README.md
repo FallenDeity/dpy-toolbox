@@ -11,9 +11,6 @@ from dpy_toolbox import Bot
 bot = Bot(command_prefix='!')
 ```
 
-### Utils
-All utils can be found at `bot.utils`.
-
 ### EmojiReact (example):
 ```
 # import offical discord.py lib
