@@ -1,10 +1,9 @@
 import __main__
-from typing import Union, Optional, Callable, Any, Iterable
+from typing import Union, Callable
 from discord.ext import commands
 import discord
 
-from dpy_toolbox.exceptions import (
-    NoEventFunction,
+from dpy_toolbox.errors import (
     NotAllowed
 )
 
@@ -13,7 +12,10 @@ from dpy_toolbox.core import (
     EventFunctionWrapper
 )
 
+from dpy_toolbox.ButtonReact import ButtonReact
+
 from dpy_toolbox.CustomContext import CustomContext
+from dpy_toolbox.EmojiReact import EmojiReact as _EmojiReact
 
 class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
@@ -38,14 +40,17 @@ class Bot(commands.Bot):
             self._auto_react_to_emojis_check = lambda m: not m.author.bot
 
         @property
-        async def AutoReact(self):
+        def AutoReact(self):
             return self._auto_react_to_emojis
 
-        @AutoReact.setter
-        def AutoReact(self, emoji: Union[str, None], check: Union[Callable]=None):
+        def AutoReact_setter(self, emoji: Union[str, None], check: Union[Callable] = None):
             self._auto_react_to_emojis = emoji
             if check:
                 self._auto_react_to_emojis_check = check
+
+        @AutoReact.setter
+        def AutoReact(self, emoji: Union[str, None]):
+            self.AutoReact_setter(emoji)
 
         @EventFunctionWrapper(events=["on_message"], pass_bot=True)
         async def _AutoEmojiReact(bot, message: discord.Message):
@@ -65,36 +70,8 @@ class Bot(commands.Bot):
                 await self.default_event(event_type, *args, **kwargs)
             return func
 
-        class _EmojiReact:
-            def __init__(self, parent, table: Optional[dict] = None):
-                self.parent = parent
-                self.bot: commands.Bot = parent.bot
-                self._table = table if table else {}
-                self.callback_func = EventFunction(func=self.callback)
-                self.callback_func.events = ["on_raw_reaction_add", "on_raw_reaction_remove"]
-
-            async def callback(self, payload):
-                if payload.member != self.bot.user and payload.emoji.name in self._table:
-                    await self._table[payload.emoji.name](payload)
-
-            async def add(self, emoji: Union[str], func: Union[Callable]):
-                self._table[emoji] = func
-
-            async def remove(self, emoji: Union[str]):
-                if emoji in self._table:
-                    self._table.pop(emoji)
-
-            async def listen(self, message: Union[discord.Message]):
-                for k in self._table:
-                    await message.add_reaction(k)
-                self.parent.events.append(self.callback_func)
-
-            async def abort(self):
-                if self.callback_func in self.parent.events:
-                    self.parent.events.remove(self.callback_func)
-
         def EmojiReact(self, **kwargs) -> _EmojiReact:
-            return self._EmojiReact(self, **kwargs)
+            return _EmojiReact(self, **kwargs)
 
         class permissions:
             def is_user(*args):

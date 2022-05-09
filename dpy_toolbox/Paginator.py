@@ -1,6 +1,7 @@
 from typing import Union, Iterable
 import discord
 from itertools import chain
+from dpy_toolbox.ui.core import ButtonDisplay
 
 class Page:
     def __init__(self, content: Union[str, discord.Embed]):
@@ -37,31 +38,12 @@ class Book:
         b.__init__(pages)
         return b
 
-class Navigation:
-    def __init__(self, emoji=None, label=None):
-        self.emoji = emoji
-        self.label = label
-
-    @property
-    def ButtonContent(self):
-        return (self.emoji if self.emoji else "") + (self.label if self.label else "")
-
-    @property
-    def ButtonKwarg(self):
-        d = {"emoji": self.emoji, "label": self.label}
-        return dict(filter(lambda val: True if val[1] else False, d.items()))
-
-    @property
-    def ButtonArg(self):
-        d = [self.emoji, self.label]
-        return [x if x else None for x in d]
-
 class NavigationOptions:
-    FIRST = Navigation("⏪")
-    LEFT = Navigation("◀️")
-    RIGHT = Navigation("▶️")
-    LAST = Navigation("⏩")
-    DISABLE = Navigation("🗑️")
+    FIRST = ButtonDisplay("⏪")
+    LEFT = ButtonDisplay("◀️")
+    RIGHT = ButtonDisplay("▶️")
+    LAST = ButtonDisplay("⏩")
+    DISABLE = ButtonDisplay("🗑️")
 
     ALL = [FIRST, LEFT, RIGHT, LAST, DISABLE]
     SMALL_PAGERS = [LEFT, RIGHT]
@@ -86,7 +68,7 @@ class Paginator(discord.ui.View):
             "Delete": self.options.DISABLE,
         }
         for child in self.children:
-            child.label, child.emoji = table[child.label].ButtonArg
+            child.label, child.emoji = table[child.label].to_args
 
     async def turn_page(self, turn: Union[int]):
         if -1 < self.page + turn < self.book.page_count:
