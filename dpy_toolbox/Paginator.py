@@ -68,7 +68,7 @@ class Paginator(discord.ui.View):
             "Delete": self.options.DISABLE,
         }
         for child in self.children:
-            child.label, child.emoji = table[child.label].to_args
+            child.label, child.emoji, child.style = table[child.label].set_args(child.label, child.emoji, child.style)
 
     async def turn_page(self, turn: Union[int]):
         if -1 < self.page + turn < self.book.page_count:

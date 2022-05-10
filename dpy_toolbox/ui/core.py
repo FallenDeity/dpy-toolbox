@@ -1,3 +1,4 @@
+from itertools import chain
 from typing import Union
 import discord
 
@@ -36,4 +37,14 @@ class ButtonDisplay:
 
     @property
     def to_args(self):
-        return [x if x else None for x in self._attr_name_to_list]
+        return self._attr_to_list
+
+    def set_args(self, *args):
+        r = []
+        o = self._attr_to_list
+        for i in range(len(args)):
+            if o[i]:
+                r.append(o[i])
+            else:
+                r.append(args[i])
+        return r

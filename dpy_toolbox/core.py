@@ -6,10 +6,10 @@ DEFAULT_EVENT_TAGS = {
         }
 
 class EventFunction:
-    def __init__(self, func: Optional[Callable] = None, events: Optional[list[str]] = None, tags: Optional[dict]=None):
+    def __init__(self, func: Optional[Callable] = None, events: Optional[list[str]] = None, tags: Optional[dict] = None):
         self.wait_for_events = events if events else []
         self.func = func
-        self.tags = tags if tags else DEFAULT_EVENT_TAGS
+        self.tags = tags if tags else DEFAULT_EVENT_TAGS.copy()
 
     async def __call__(self, *args, **kwargs):
         if not self.func:
@@ -20,7 +20,7 @@ class EventFunctionWrapper:
     def __init__(self, events: Optional[list[str]] = None, **kwargs):
         self.wait_for_events = events if events else []
 
-        self.tags = DEFAULT_EVENT_TAGS
+        self.tags = DEFAULT_EVENT_TAGS.copy()
         for k, v in kwargs.items():
             self.tags[k] = v
 

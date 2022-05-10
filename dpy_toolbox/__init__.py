@@ -12,20 +12,21 @@ from dpy_toolbox.core import (
     EventFunctionWrapper
 )
 
-from dpy_toolbox.ButtonReact import ButtonReact
-
+from dpy_toolbox.ui.core import ButtonDisplay
+from dpy_toolbox.ButtonReact import ButtonReact, ButtonReactRoler
 from dpy_toolbox.CustomContext import CustomContext
 from dpy_toolbox.EmojiReact import EmojiReact as _EmojiReact
+from dpy_toolbox.EmojiReact import EmojiReactRoler as _EmojiReactRoler
 
 class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.utils = self._utils(self)
+        self.toolbox = self._toolbox(self)
 
     async def get_context(self, message, *, cls=CustomContext):
         return await super().get_context(message, cls=cls)
 
-    class _utils:
+    class _toolbox:
         def __init__(self, bot):
             self.bot: commands.Bot = bot
             self.events = []
@@ -54,8 +55,8 @@ class Bot(commands.Bot):
 
         @EventFunctionWrapper(events=["on_message"], pass_bot=True)
         async def _AutoEmojiReact(bot, message: discord.Message):
-            if bot.utils._auto_react_to_emojis and bot.utils._auto_react_to_emojis_check(message):
-                await message.add_reaction(bot.utils._auto_react_to_emojis)
+            if bot.toolbox._auto_react_to_emojis and bot.toolbox._auto_react_to_emojis_check(message):
+                await message.add_reaction(bot.toolbox._auto_react_to_emojis)
 
         async def default_event(self, event_type, *args, **kwargs):
             for event in self.events:
@@ -73,15 +74,8 @@ class Bot(commands.Bot):
         def EmojiReact(self, **kwargs) -> _EmojiReact:
             return _EmojiReact(self, **kwargs)
 
-        class permissions:
-            def is_user(*args):
-                user_ids = [int(x) for x in args]
-                async def predicate(ctx: commands.Context) -> bool:
-                    if ctx.author.id not in user_ids:
-                        raise NotAllowed(f"{ctx.author.id} is not allowed to use {ctx.invoked_with}")
-                    return True
-
-                return commands.core.check(predicate)
+        def EmojiReactRoler(self, **kwargs) -> _EmojiReactRoler:
+            return _EmojiReactRoler(self, **kwargs)
 
         class _patcher:
             def __init__(self, bot):
