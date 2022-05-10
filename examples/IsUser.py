@@ -1,11 +1,11 @@
-from dpy_toolbox import Bot
+from dpy_toolbox import Bot, permissions
 import discord
 
 bot = Bot(command_prefix='!', intents=discord.Intents.all())
 TOKEN = ''  # BAD
 
 @bot.command()
-@bot.utils.permissions.is_user(784735765514158090, "837501363927646248")
+@permissions.is_user(784735765514158090, "837501363927646248")
 async def greet(ctx, *, name="John"):
     await ctx.send(f"Hello, {name}!")
 
