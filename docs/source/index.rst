@@ -14,7 +14,7 @@ Getting started
 Is this your first time using the library? This is the place to get started!
 
 - **First steps:** :doc:`intro`
-- **Examples:** You can find many great examples at the github :resource:`examples <examples>.
+- **Examples:** You can find many great examples at the github :resource:`examples <examples>`.
 
 Getting help
 --------------
