@@ -10,6 +10,6 @@ setup(name='dpy_toolbox',
       packages=['dpy_toolbox'],
       zip_safe=False,
       install_requires=[
-          'discord',
+          'git+https://github.com/Rapptz/discord.py/tree/master',
           ]
       )
