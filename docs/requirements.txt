@@ -1,2 +1,2 @@
 discord
-sphinxcontrib_trio
+git+https://github.com/Rapptz/discord.py/tree/master
