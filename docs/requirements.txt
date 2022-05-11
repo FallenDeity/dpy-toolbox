@@ -1,2 +1,2 @@
 discord
-git+https://github.com/Rapptz/discord.py/tree/master
+git+https://github.com/Rapptz/discord.py/tree/master#egg=discord.py
