@@ -1,2 +1,2 @@
 discord
-sphinxcontrib_tri
+sphinxcontrib_trio
