@@ -29,6 +29,7 @@ print(cur_dirs)
 for cd in cur_dirs:
     sys.path.insert(0, cd)
 sys.path.append(os.path.abspath('extensions'))
+sys.path.insert(os.path.abspath('../..'))
 
 # -- General configuration ------------------------------------------------
 
