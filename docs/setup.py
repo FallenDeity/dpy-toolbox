@@ -10,6 +10,7 @@ setup(name='dpy_toolbox',
       packages=['dpy_toolbox'],
       zip_safe=False,
       install_requires=[
-          'git+https://github.com/Rapptz/discord.py#egg=discord-py',
+            'git+https://github.com/Rapptz/discord.py#egg=discord-py',
+            'sphinxcontrib_trio'
           ]
       )
