@@ -19,14 +19,15 @@ import re
 # CUSTOM
 cur_dir = os.path.abspath(__name__)
 cur_dir = "/".join(cur_dir.split("/")[:-1])
-cur_dir2 = "/".join(cur_dir.split("/")[:-3])
+cur_dirs = ["/".join(cur_dir.split("/")[:-3])]
 print(cur_dir)
-print(cur_dir2)
+print(cur_dirs)
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, cur_dir2)
+for cd in cur_dirs:
+    sys.path.insert(0, cd)
 sys.path.append(os.path.abspath('extensions'))
 
 # -- General configuration ------------------------------------------------
