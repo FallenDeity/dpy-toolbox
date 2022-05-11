@@ -7,6 +7,20 @@ class CustomContext(commands.Context):
     async def ask(self, question: Union[str, discord.Embed, None] = None,
             check: Callable = None, timeout: int = 120, delQuestion: bool = True,
             delAnswer: bool = True) -> Union[Optional[str], Any]:
+        """
+
+        :param str question: Will send a text-message before waiting for a response
+        :param discord.Embed question: Will send an embed before waiting for a response
+        :param None question: Will not send any message before waiting
+        :param check: The check that will be used for the response | f(message)
+        :param int timeout: The timeout of the response
+        :param bool delQuestion: Will delete the question if provided and true
+        :param bool delAnswer: Will delete the user's answer if true
+        :return: The user's response message
+        :rtype: discord.Message
+
+        :raises asyncio.TimeoutError: If the user doesnt answer within the timeout
+        """
 
         if question:
             match_question = {

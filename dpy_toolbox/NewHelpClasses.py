@@ -11,7 +11,7 @@ def Default():
     return
 
 def Embedded(bot: commands.Bot):
-    class Embedded(commands.MinimalHelpCommand):
+    class _Embedded(commands.MinimalHelpCommand):
         async def send_pages(self):
             h = ""
             destination = self.get_destination()
@@ -20,4 +20,4 @@ def Embedded(bot: commands.Bot):
             embed = discord.Embed(title="Help:", description=h, color=discord.Color.blurple())
             await destination.send(embed=embed)
 
-    return Embedded()
+    return _Embedded()

@@ -3,20 +3,20 @@ from typing import Union, Callable
 from discord.ext import commands
 import discord
 
-from dpy_toolbox.errors import (
+from .errors import (
     NotAllowed
 )
 
-from dpy_toolbox.core import (
+from .core import (
     EventFunction,
     EventFunctionWrapper
 )
 
-from dpy_toolbox.ui.core import ButtonDisplay
-from dpy_toolbox.ButtonReact import ButtonReact, ButtonReactRoler
-from dpy_toolbox.CustomContext import CustomContext
-from dpy_toolbox.EmojiReact import EmojiReact as _EmojiReact
-from dpy_toolbox.EmojiReact import EmojiReactRoler as _EmojiReactRoler
+from .ui.core import ButtonDisplay
+from .ButtonReact import ButtonReact, ButtonReactRoler
+from .CustomContext import CustomContext
+from .EmojiReact import EmojiReact as _EmojiReact
+from .EmojiReact import EmojiReactRoler as _EmojiReactRoler
 
 class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):

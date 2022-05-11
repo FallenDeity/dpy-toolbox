@@ -1,5 +1,5 @@
 from typing import Optional, Callable
-from dpy_toolbox.errors import NoEventFunction
+from .errors import NoEventFunction
 
 DEFAULT_EVENT_TAGS = {
             "pass_bot": False
