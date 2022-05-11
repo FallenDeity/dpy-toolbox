@@ -19,7 +19,7 @@ import re
 # CUSTOM
 cur_dir = os.path.abspath(__name__)
 cur_dir = "/".join(cur_dir.split("/")[:-1])
-cur_dirs = ["/".join(cur_dir.split("/")[:-3])]
+cur_dirs = ["/".join(cur_dir.split("/")[:-5])]
 print(cur_dir)
 print(cur_dirs)
 
