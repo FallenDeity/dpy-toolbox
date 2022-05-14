@@ -1,16 +1,16 @@
 dpy\_toolbox package
 ====================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dpy_toolbox.ui
+
 Submodules
 ----------
-
-dpy\_toolbox.ButtonReact module
--------------------------------
-
-.. automodule:: dpy_toolbox.ButtonReact
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 dpy\_toolbox.CustomContext module
 ---------------------------------
@@ -32,14 +32,6 @@ dpy\_toolbox.NewHelpClasses module
 ----------------------------------
 
 .. automodule:: dpy_toolbox.NewHelpClasses
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dpy\_toolbox.Paginator module
------------------------------
-
-.. automodule:: dpy_toolbox.Paginator
    :members:
    :undoc-members:
    :show-inheritance:
