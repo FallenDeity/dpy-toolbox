@@ -1,35 +1,23 @@
 from itertools import chain
-from typing import Union
+from typing import Union, Optional
 import discord
 
-class ButtonDisplay:
-    def __init__(self, emoji: Union[str] = None, label: Union[str] = None, color: Union[discord.ButtonStyle] = None):
-        self.emoji = emoji
-        self.label = label
-        self.style = color
+class _BaseDisplay:
+    def __init__(self, *args, **kwargs):
+        self.attrbs = kwargs
+        for k, v in self.attrbs:
+            setattr(self, k, v)
 
     def has(self, name):
         return True if getattr(self, name, None) else False
 
     @property
     def _attr_to_list(self):
-        return self.emoji, self.label, self.style
+        return list(self.attrbs.values())
 
     @property
     def _attr_to_list_filtered(self):
         return filter(lambda x: True if x else False, self._attr_to_list)
-
-    @property
-    def _attr_name_to_list(self):
-        return self._attr_to_list[:-1]
-
-    @property
-    def _attr_name_to_list_filtered(self):
-        return filter(lambda x: True if x else False, self._attr_name_to_list)
-
-    @property
-    def ButtonContent(self):
-        return "".join(self._attr_name_to_list_filtered)
 
     @property
     def to_kwargs(self):
@@ -48,3 +36,35 @@ class ButtonDisplay:
             else:
                 r.append(args[i])
         return r
+
+    @classmethod
+    def from_args(cls, *args):
+        return cls.__new__(cls).__init__(**cls.args_to_kwargs(*args))
+
+    @staticmethod
+    def args_to_kwargs(*args):
+        return {arg: arg for arg in args}
+
+class ButtonDisplay(_BaseDisplay):
+    def __init__(self, emoji: Union[str] = None, label: Union[str] = None, color: Union[discord.ButtonStyle] = None):
+        super().__init__(super().args_to_kwargs(emoji, label, color))
+
+    @property
+    def _attr_name_to_list(self):
+        return self._attr_to_list[:-1]
+
+    @property
+    def _attr_name_to_list_filtered(self):
+        return filter(lambda x: True if x else False, self._attr_name_to_list)
+
+    @property
+    def ButtonContent(self):
+        return "".join(self._attr_name_to_list_filtered)
+
+class DropdownDisplay(_BaseDisplay):
+    def __init__(self, emoji: Optional[str] = None, label: Optional[str] = None, description: Optional[str] = None, color: Optional[discord.ButtonStyle] = None):
+        super().__init__(super().args_to_kwargs(emoji, label, description, color))
+
+class SelectOptionDisplay(_BaseDisplay):
+    def __init__(self, emoji: Optional[str] = None, label: Optional[str] = None, description: Optional[str] = None):
+        super().__init__(super().args_to_kwargs(emoji, label, description))
