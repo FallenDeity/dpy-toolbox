@@ -30,6 +30,8 @@ for cd in cur_dirs:
     sys.path.insert(0, cd)
 sys.path.append(os.path.abspath('extensions'))
 sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('../../ui'))
+
 
 # -- General configuration ------------------------------------------------
 
