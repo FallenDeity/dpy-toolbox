@@ -12,7 +12,7 @@ class Page:
         self.content = content
 
 class SelectPage:
-    def __init__(self, content: Union[str, discord.Embed], label: Union[str] = None, description: Union[str] = None, emoji: Union[str] = None, buttons: Optional[discord.Button, list[discord.Button], None] = None):
+    def __init__(self, content: Union[str, discord.Embed], label: Union[str] = None, description: Union[str] = None, emoji: Union[str] = None, buttons: Union[discord.Button, list[discord.Button], None] = None):
         """
         A page that
         :param content: The message that will be displayed
@@ -86,20 +86,20 @@ class NavigationOptions:
 
 
 class Paginator(discord.ui.View):
-    """
-    Custom Paginator
-    :param Book book: A book that will be used as an iterator
-    :param list[discord.Member] users: A list of all users that are allowed to use this paginator
-    :param list[int] users: A list of all user ids that are allowed to use this paginator
-    :param None users: Everyone is allowed to use this paginator
-    :param NavigationOptions options: The options that will be used to create each button
-    :param int timeout: The view's timeout
-    :return: The paginator
-    :rtype: discord.ui.View
-    """
     def __init__(self, book: Union[Book], users: Union[discord.User, int, list[discord.User], list[int]] = None,
                  options: Optional[NavigationOptions] = None,
                  timeout: Union[int] = 120):
+        """
+        Custom Paginator
+        :param Book book: A book that will be used as an iterator
+        :param list[discord.Member] users: A list of all users that are allowed to use this paginator
+        :param list[int] users: A list of all user ids that are allowed to use this paginator
+        :param None users: Everyone is allowed to use this paginator
+        :param NavigationOptions options: The options that will be used to create each button
+        :param int timeout: The view's timeout
+        :return: The paginator
+        :rtype: discord.ui.View
+        """
         if self.users:
             self.users = users if hasattr(users, '__iter__') else [users]
             self.users = list(map(lambda x: getattr(x, 'id', x), self.users))
@@ -200,10 +200,17 @@ class Paginator(discord.ui.View):
             await self.message.edit(view=self)
         self.stop()
 
-#Dropdown menus
 class DropdownPaginator(discord.ui.View):
     def __init__(self, book: Union[Book], users: Union[discord.User, int, list[discord.User], list[int]] = None,
                  end_button: Union[bool] = False, placeholder: Union[str]='Please select a page', timeout: Union[int] = 120):
+        """
+        Just like a paginator but with a dropdown menu to select the page from
+        :param book: The book that will be used (Book[SelectPage])
+        :param users: The users who are allowed to use this Paginator
+        :param bool end_button: If an end interaction button should automatically be added
+        :param placeholder: The placeholder for when the view hasnt been used before
+        :param timeout: The view's timeout
+        """
         self.users = users
         if self.users:
             self.users = users if hasattr(users, '__iter__') else [users]
@@ -214,6 +221,7 @@ class DropdownPaginator(discord.ui.View):
         self.select_menu: discord.ui.Select = discord.ui.Select(placeholder=placeholder, options=real_pages)
         self.select_menu.callback = self.callback
         self.last_value = None
+        self.end_button = end_button
         self.add_item(self.select_menu)
 
         if not end_button: self.remove_item(self.end_inter)
@@ -238,6 +246,8 @@ class DropdownPaginator(discord.ui.View):
 
         self.clear_items()
         self.add_item(self.select_menu)
+        if self.end_button:
+            self.add_item(self.end_inter)
 
         page = self.book.pages[int(select.values[0])]
 
