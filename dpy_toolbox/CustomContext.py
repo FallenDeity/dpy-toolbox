@@ -1,4 +1,4 @@
-from typing import Union, Optional, Callable, Any, Iterable
+from typing import Union, Optional, Callable, Any
 import discord
 from discord.ext import commands
 import asyncio

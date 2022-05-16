@@ -12,7 +12,7 @@ class Page:
         self.content = content
 
 class SelectPage:
-    def __init__(self, content: Union[str, discord.Embed], label: Union[str] = None, description: Union[str] = None, emoji: Union[str] = None, buttons: Optional[discord.Button, list[discord.Button], None] = None):
+    def __init__(self, content: Union[str, discord.Embed], label: Union[str] = None, description: Union[str] = None, emoji: Union[str] = None, buttons: Union[discord.Button, list[discord.Button], None] = None):
         """
         A page that
         :param content: The message that will be displayed
@@ -252,7 +252,6 @@ class DropdownPaginator(discord.ui.View):
         page = self.book.pages[int(select.values[0])]
 
         if page.buttons and len(page.buttons) > 0:
-            print(page.buttons)
             for btn in page.buttons:
                 self.add_item(btn)
 
@@ -260,4 +259,6 @@ class DropdownPaginator(discord.ui.View):
             discord.Embed: "embed",
             str: "content"
         }
-        await interaction.response.edit_message(view=self, **{table[type(page.content)]: page.content})
+        add_kwargs = {v: None for v in table.values()}
+        add_kwargs[table[type(page.content)]] = page.content
+        await interaction.response.edit_message(view=self, **add_kwargs)
