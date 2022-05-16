@@ -12,7 +12,7 @@ class Page:
         self.content = content
 
 class SelectPage:
-    def __init__(self, content: Union[str, discord.Embed], label: Union[str] = None, description: Union[str] = None, emoji: Union[str] = None, buttons: Optional[discord.Button, list[discord.Button], None] = None):
+    def __init__(self, content: Union[str, discord.Embed], label: Union[str] = None, description: Union[str] = None, emoji: Union[str] = None, buttons: Union[discord.Button, list[discord.Button], None] = None):
         """
         A page that
         :param content: The message that will be displayed
