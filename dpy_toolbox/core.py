@@ -2,7 +2,8 @@ from typing import Optional, Callable
 from .errors import NoEventFunction
 
 DEFAULT_EVENT_TAGS = {
-            "pass_bot": False
+            "pass_bot": False,
+            "pass_self": False
         }
 
 class EventFunction:
